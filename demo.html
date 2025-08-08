@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoFlow - 人人可用的浏览器自动化引擎</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #a855f7, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dot-grid-background {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 2rem 2rem;
+        }
+        .card-glow {
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.3), 0 0 10px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-white">
+                Auto<span class="gradient-text">Flow</span>
+            </h1>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#why-now" class="text-neutral-300 hover:text-white transition-colors">核心优势</a>
+                <a href="#how-it-works" class="text-neutral-300 hover:text-white transition-colors">实现方法</a>
+                <a href="#use-cases" class="text-neutral-300 hover:text-white transition-colors">应用场景</a>
+            </nav>
+            <a href="#cta" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-5 py-2 rounded-lg transition-colors">
+                立即体验
+            </a>
+        </div>
+    </header>
+
+    <main class="overflow-x-hidden">
+
+        <!-- Hero Section -->
+        <section class="relative pt-48 pb-32 dot-grid-background">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-0"></div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h2 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                    人人可用的<span class="gradient-text">可视化 Agent 构建平台</span>
+                </h2>
+                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-neutral-300">
+                    通过<b class="text-white">可视化录制</b>、<b class="text-white">LLM 意图理解</b>与<b class="text-white">自愈执行引擎</b>，将繁琐的浏览器操作，一键封装成可复用的任务模板与工作流。
+                </p>
+                <div class="mt-10 flex justify-center items-center space-x-4">
+                    <a href="#cta" class="bg-white text-black font-bold px-8 py-3 rounded-lg hover:bg-neutral-200 transition-transform hover:scale-105">
+                        开启免费试用
+                    </a>
+                    <a href="#" class="border border-neutral-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-neutral-800 transition-all hover:scale-105">
+                        观看演示
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Now Section -->
+        <section id="why-now" class="py-24 bg-black">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold text-white">为什么是现在？</h3>
+                    <p class="mt-4 text-lg text-neutral-400">Agent 时代已来，我们为您提供最佳实践</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-neutral-900 p-8 rounded-2xl border border-neutral-800 card-glow">
+                        <h4 class="text-xl font-bold text-white">告别概念混乱</h4>
+                        <p class="mt-3 text-neutral-400">我们提供清晰的方法论与强大的工具链，让 Agent 落地不再是难题。</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-neutral-900 p-8 rounded-2xl border border-neutral-800 card-glow">
+                        <h4 class="text-xl font-bold text-white">超越传统 RPA</h4>
+                        <p class="mt-3 text-neutral-400">LLM 赋能的语义理解与自愈能力，告别脆弱、昂贵的旧方案。</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-neutral-900 p-8 rounded-2xl border border-neutral-800 card-glow">
+                        <h4 class="text-xl font-bold text-white">原生于浏览器</h4>
+                        <p class="mt-3 text-neutral-400">基于现代浏览器技术，无侵入式对接任何 SaaS，云端执行更灵活。</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="bg-neutral-900 p-8 rounded-2xl border border-neutral-800 card-glow">
+                        <h4 class="text-xl font-bold text-white">价值清晰可见</h4>
+                        <p class="mt-3 text-neutral-400">将数小时的工作压缩至数秒，流程成功率实时监控，ROI 精准量化。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section (Layout Fixed) -->
+        <section id="how-it-works" class="py-24 bg-neutral-950">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold text-white">四步构建您的专属 Agent</h3>
+                    <p class="mt-4 text-lg text-neutral-400">从录制到执行，从未如此简单</p>
+                </div>
+                <div class="relative max-w-6xl mx-auto">
+                    <!-- Desktop connector line (behind the steps) -->
+                    <div class="hidden lg:block absolute top-8 left-0 w-full h-0.5 bg-neutral-800"></div>
+                    
+                    <!-- Grid for steps -->
+                    <div class="relative grid grid-cols-1 lg:grid-cols-4 gap-y-20 lg:gap-y-0 lg:gap-x-8">
+                        <!-- Step 1 -->
+                        <div class="relative flex flex-col items-center text-center">
+                            <!-- Mobile connector line -->
+                            <div class="block lg:hidden absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-20 bg-neutral-800"></div>
+                            <div class="w-16 h-16 rounded-full bg-purple-900/50 border-2 border-purple-500 flex items-center justify-center text-2xl font-bold text-purple-400 bg-neutral-950 z-10">1</div>
+                            <h4 class="mt-4 text-xl font-semibold text-white">记录</h4>
+                            <p class="mt-2 text-neutral-400">在浏览器中“示范”一次，我们自动捕捉您的每一步操作。</p>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="relative flex flex-col items-center text-center">
+                            <div class="block lg:hidden absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-20 bg-neutral-800"></div>
+                            <div class="w-16 h-16 rounded-full bg-indigo-900/50 border-2 border-indigo-500 flex items-center justify-center text-2xl font-bold text-indigo-400 bg-neutral-950 z-10">2</div>
+                            <h4 class="mt-4 text-xl font-semibold text-white">语义化</h4>
+                            <p class="mt-2 text-neutral-400">LLM 将操作序列智能转化为结构化的任务图，理解真实意图。</p>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="relative flex flex-col items-center text-center">
+                            <div class="block lg:hidden absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-20 bg-neutral-800"></div>
+                            <div class="w-16 h-16 rounded-full bg-pink-900/50 border-2 border-pink-500 flex items-center justify-center text-2xl font-bold text-pink-400 bg-neutral-950 z-10">3</div>
+                            <h4 class="mt-4 text-xl font-semibold text-white">参数化</h4>
+                            <p class="mt-2 text-neutral-400">轻松标注变量，一键生成可复用的任务表单或 API 接口。</p>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="relative flex flex-col items-center text-center">
+                            <!-- No mobile connector for the last step -->
+                            <div class="w-16 h-16 rounded-full bg-emerald-900/50 border-2 border-emerald-500 flex items-center justify-center text-2xl font-bold text-emerald-400 bg-neutral-950 z-10">4</div>
+                            <h4 class="mt-4 text-xl font-semibold text-white">编排执行</h4>
+                            <p class="mt-2 text-neutral-400">将任务串联成工作流，无缝对接 Coze 生态，触达背后 3 万开发者社区，或通过定时、Webhook 等方式自动触发。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases Section -->
+        <section id="use-cases" class="py-24 bg-black">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold text-white">为高频重复场景而生</h3>
+                    <p class="mt-4 text-lg text-neutral-400">覆盖运营、销售、财务、人事的日常工作</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-neutral-900 p-8 rounded-2xl border border-neutral-800 card-glow">
+                        <h4 class="text-xl font-bold text-white">电商 / 内容平台</h4>
+                        <ul class="mt-4 space-y-2 text-neutral-400 list-disc list-inside">
+                            <li>商品批量上架与更新</li>
+                            <li>跨平台素材同步</li>
+                            <li>每日运营报表导出</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-900 p-8 rounded-2xl border border-neutral-800 card-glow">
+                        <h4 class="text-xl font-bold text-white">销售 / 客服</h4>
+                        <ul class="mt-4 space-y-2 text-neutral-400 list-disc list-inside">
+                            <li>销售线索自动录入 CRM</li>
+                            <li>批量处理客服工单</li>
+                            <li>常见问答一键回复</li>
+                        </ul>
+                    </div>
+                    <div class="bg-neutral-900 p-8 rounded-2xl border border-neutral-800 card-glow">
+                        <h4 class="text-xl font-bold text-white">财务 / HR</h4>
+                        <ul class="mt-4 space-y-2 text-neutral-400 list-disc list-inside">
+                            <li>发票批量下载与对账</li>
+                            <li>社保、招聘网站数据搬运</li>
+                            <li>候选人信息同步</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Outputs Section -->
+        <section class="py-24 bg-neutral-950">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold text-white">您的产出，远不止于自动化</h3>
+                    <p class="mt-4 text-lg text-neutral-400">沉淀团队智慧，构建资产，创造价值</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div class="text-center p-8">
+                        <h4 class="text-2xl font-bold gradient-text">可复用任务模板</h4>
+                        <p class="mt-3 text-neutral-300">沉淀团队智慧，将最佳实践固化为模板，新人也能快速上手。</p>
+                    </div>
+                    <div class="text-center p-8">
+                        <h4 class="text-2xl font-bold gradient-text">可执行 Playbook</h4>
+                        <p class="mt-3 text-neutral-300">带监控与自愈能力，稳定可靠，7x24小时为您省心省力。</p>
+                    </div>
+                    <div class="text-center p-8">
+                        <h4 class="text-2xl font-bold gradient-text">模板市场</h4>
+                        <p class="mt-3 text-neutral-300">分享您的创造，发现更多可能，甚至通过模板交易创造收益。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="cta" class="py-24 bg-black">
+            <div class="container mx-auto px-6 text-center">
+                 <div class="max-w-3xl mx-auto">
+                    <h3 class="text-4xl md:text-5xl font-extrabold text-white">准备好告别重复劳动了吗？</h3>
+                    <p class="mt-6 text-lg text-neutral-400">
+                        立即注册，仅需几分钟即可创建您的第一个自动化工作流。加入我们，共同塑造未来的工作方式。
+                    </p>
+                    <div class="mt-10">
+                        <a href="#" class="bg-purple-600 text-white font-bold text-lg px-10 py-4 rounded-lg hover:bg-purple-700 transition-transform hover:scale-105 inline-block">
+                            免费试用，即刻开始
+                        </a>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-950 border-t border-neutral-800">
+        <div class="container mx-auto px-6 py-8 text-center text-neutral-500">
+            <p>&copy; 2025 AutoFlow. All Rights Reserved.</p>
+            <div class="mt-4 flex justify-center space-x-6">
+                <a href="#" class="hover:text-white transition-colors">关于我们</a>
+                <a href="#" class="hover:text-white transition-colors">服务条款</a>
+                <a href="#" class="hover:text-white transition-colors">隐私政策</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
