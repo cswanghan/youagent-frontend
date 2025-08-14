@@ -1,3 +1,5 @@
+let nodemailer;
+
 export default async function handler(req, res) {
   console.log('Email API called:', {
     method: req.method,
@@ -33,8 +35,19 @@ export default async function handler(req, res) {
   }
   
   try {
-    // Dynamic import for Vercel
-    const { default: nodemailer } = await import('nodemailer');
+    // Import nodemailer if not already imported
+    if (!nodemailer) {
+      const module = await import('nodemailer');
+      nodemailer = module.default || module;
+    }
+    
+    // Debug: Check what we got
+    console.log('Nodemailer loaded:', {
+      hasNodemailer: !!nodemailer,
+      type: typeof nodemailer,
+      hasCreateTransporter: !!(nodemailer && nodemailer.createTransporter),
+      keys: nodemailer ? Object.keys(nodemailer).slice(0, 10) : []
+    });
     
     // Create transporter
     const transporter = nodemailer.createTransporter({
@@ -105,7 +118,12 @@ export default async function handler(req, res) {
       error: 'Failed to send email',
       details: {
         message: error.message,
-        code: error.code
+        code: error.code,
+        // Debug info
+        nodemailerInfo: {
+          loaded: !!nodemailer,
+          hasCreateTransporter: !!(nodemailer && nodemailer.createTransporter)
+        }
       }
     });
   }

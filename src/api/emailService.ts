@@ -34,7 +34,7 @@ export class EmailService {
       const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       const apiUrl = isDevelopment
         ? 'http://localhost:3001/api/send-email' // 开发环境
-        : '/api/send-email';  // 生产环境：使用相对路径（Vercel Functions）
+        : '/api/email';  // 生产环境：使用相对路径（Vercel Functions）
       
       try {
         const response = await fetch(apiUrl, {
