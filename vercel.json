@@ -9,14 +9,5 @@
       "source": "/api/:path*",
       "destination": "/api/:path*"
     }
-  ],
-  "env": {
-    "EMAIL_USER": "@email-user",
-    "EMAIL_PASS": "@email-pass"
-  },
-  "build": {
-    "env": {
-      "VITE_API_URL": "@vite-api-url"
-    }
-  }
+  ]
 }
