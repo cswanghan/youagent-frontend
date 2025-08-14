@@ -8,8 +8,8 @@ export const translations = {
       cta: '立即体验'
     },
     hero: {
-      title: '让每个人都能创建',
-      titleHighlight: '智能自动化 Agent',
+      title: '自动化一切重复',
+      titleHighlight: 'AI 让您专注创新',
       subtitle: '通过<b>AI 意图理解</b>与<b>智能执行引擎</b>，将您的日常工作流程转化为<b>可复用的自动化方案</b>。零代码门槛，10分钟即可上手。',
       tryButton: '开启免费试用',
       demoButton: '观看演示'
@@ -127,8 +127,8 @@ export const translations = {
       cta: 'Get Started'
     },
     hero: {
-      title: 'Empower Everyone to Create ',
-      titleHighlight: 'Intelligent Automation Agents',
+      title: 'Automate the Repetitive',
+      titleHighlight: 'AI Lets You Innovate',
       subtitle: 'Transform your daily workflows into <b>reusable automation solutions</b> with <b>AI-powered intent understanding</b> and <b>smart execution engine</b>. No coding required, get started in 10 minutes.',
       tryButton: 'Start Free Trial',
       demoButton: 'Watch Demo'
