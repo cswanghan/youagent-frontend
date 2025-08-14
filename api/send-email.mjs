@@ -1,18 +1,12 @@
-// Vercel Serverless Function for sending emails
-// This file will be automatically deployed as an API endpoint
+// Vercel Serverless Function for sending emails - ESM version
+import nodemailer from 'nodemailer';
 
-// Use CommonJS require for better compatibility with Vercel Functions
-const nodemailer = require('nodemailer');
-
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   console.log('Email API called:', {
     method: req.method,
     hasBody: !!req.body,
-    environment: process.env.NODE_ENV,
     hasEmailUser: !!process.env.EMAIL_USER,
-    hasEmailPass: !!process.env.EMAIL_PASS,
-    userLength: process.env.EMAIL_USER?.length,
-    passLength: process.env.EMAIL_PASS?.length
+    hasEmailPass: !!process.env.EMAIL_PASS
   });
 
   // Enable CORS
@@ -30,13 +24,10 @@ module.exports = async function handler(req, res) {
   
   // Check if environment variables are set
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.error('Missing email configuration:', {
-      hasUser: !!process.env.EMAIL_USER,
-      hasPass: !!process.env.EMAIL_PASS
-    });
+    console.error('Missing email configuration');
     return res.status(500).json({ 
       success: false, 
-      error: 'Email service not configured. Please check environment variables.',
+      error: 'Email service not configured',
       debug: {
         hasEmailUser: !!process.env.EMAIL_USER,
         hasEmailPass: !!process.env.EMAIL_PASS
@@ -45,8 +36,8 @@ module.exports = async function handler(req, res) {
   }
   
   try {
-    // Email configuration from environment variables
-    const emailConfig = {
+    // Create transporter
+    const transporter = nodemailer.createTransporter({
       host: 'smtp.163.com',
       port: 465,
       secure: true,
@@ -55,17 +46,13 @@ module.exports = async function handler(req, res) {
         pass: process.env.EMAIL_PASS
       },
       tls: {
-        // Do not fail on invalid certs
         rejectUnauthorized: false
       }
-    };
-    
-    // Create transporter using nodemailer
-    const transporter = nodemailer.createTransporter(emailConfig);
+    });
     
     const { userEmail, adminEmail, subject, message } = req.body;
     
-    // Verify connection first
+    // Verify connection
     console.log('Verifying SMTP connection...');
     await transporter.verify();
     console.log('SMTP connection verified');
@@ -94,14 +81,9 @@ module.exports = async function handler(req, res) {
       `
     };
     
-    // Send email
     const info = await transporter.sendMail(mailOptions);
     
-    console.log('Email sent successfully:', {
-      messageId: info.messageId,
-      to: adminEmail || 'noswanghan@163.com',
-      accepted: info.accepted
-    });
+    console.log('Email sent successfully:', info.messageId);
     
     res.status(200).json({ 
       success: true, 
@@ -112,15 +94,12 @@ module.exports = async function handler(req, res) {
     });
     
   } catch (error) {
-    console.error('Detailed error sending email:', {
+    console.error('Error sending email:', {
       message: error.message,
       code: error.code,
-      command: error.command,
-      response: error.response,
-      responseCode: error.responseCode
+      response: error.response
     });
     
-    // Return detailed error for debugging
     res.status(500).json({ 
       success: false, 
       error: 'Failed to send email',
@@ -133,4 +112,4 @@ module.exports = async function handler(req, res) {
       }
     });
   }
-};
+}
