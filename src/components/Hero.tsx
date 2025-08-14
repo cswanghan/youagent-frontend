@@ -16,7 +16,25 @@ const Hero: React.FC = () => {
         </h2>
         <p className="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-neutral-300 animate-slide-up" 
            dangerouslySetInnerHTML={{ __html: t.hero.subtitle }} />
-        <div className="mt-10 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 animate-slide-up">
+        
+        {/* Product Hunt Badge */}
+        <div className="mt-6 flex justify-center animate-slide-up">
+          <a 
+            href="https://www.producthunt.com/products/autoflow-3?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-autoflow-3" 
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img 
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1005236&theme=light&t=1755171708759" 
+              alt="AutoFlow - Intelligent automation platform for everyone | Product Hunt" 
+              style={{ width: '250px', height: '54px' }}
+              width="250" 
+              height="54" 
+            />
+          </a>
+        </div>
+        
+        <div className="mt-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 animate-slide-up">
           <button
             onClick={() => setIsModalOpen(true)}
             className="bg-white text-black font-bold px-8 py-3 rounded-lg hover:bg-neutral-200 transition-transform hover:scale-105 w-full sm:w-auto"
