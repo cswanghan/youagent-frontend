@@ -2,6 +2,14 @@
 // This file will be automatically deployed as an API endpoint
 
 export default async function handler(req, res) {
+  console.log('Email API called:', {
+    method: req.method,
+    hasBody: !!req.body,
+    environment: process.env.NODE_ENV,
+    hasEmailUser: !!process.env.EMAIL_USER,
+    hasEmailPass: !!process.env.EMAIL_PASS
+  });
+
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -13,6 +21,22 @@ export default async function handler(req, res) {
   
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+  
+  // Check if environment variables are set
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error('Missing email configuration:', {
+      hasUser: !!process.env.EMAIL_USER,
+      hasPass: !!process.env.EMAIL_PASS
+    });
+    return res.status(500).json({ 
+      success: false, 
+      error: 'Email service not configured. Please check environment variables.',
+      debug: {
+        hasEmailUser: !!process.env.EMAIL_USER,
+        hasEmailPass: !!process.env.EMAIL_PASS
+      }
+    });
   }
   
   try {
@@ -59,26 +83,49 @@ export default async function handler(req, res) {
       `
     };
     
-    await transporter.sendMail(mailOptions);
+    // Test connection first
+    console.log('Testing email connection...');
+    await transporter.verify();
+    console.log('Email connection verified');
     
-    console.log('Email sent successfully to:', adminEmail || 'noswanghan@163.com');
+    // Send email
+    const info = await transporter.sendMail(mailOptions);
+    
+    console.log('Email sent successfully:', {
+      messageId: info.messageId,
+      to: adminEmail || 'noswanghan@163.com'
+    });
+    
     res.status(200).json({ 
       success: true, 
       message: 'Email sent successfully',
+      messageId: info.messageId,
       timestamp: new Date().toISOString()
     });
     
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Detailed error sending email:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode
+    });
     
-    // 在生产环境中，不要暴露详细错误信息
-    const errorMessage = process.env.NODE_ENV === 'development' 
-      ? error.message 
-      : 'Failed to send email';
-    
+    // Return detailed error for debugging
     res.status(500).json({ 
       success: false, 
-      error: errorMessage
+      error: 'Failed to send email',
+      details: {
+        message: error.message,
+        code: error.code,
+        responseCode: error.responseCode,
+        // Only in development or with debug flag
+        debug: process.env.NODE_ENV !== 'production' ? {
+          command: error.command,
+          response: error.response
+        } : undefined
+      }
     });
   }
 }
