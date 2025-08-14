@@ -1,6 +1,8 @@
-let nodemailer;
+// Vercel Serverless Function for sending emails - CommonJS version
+// Using .cjs extension to avoid ES module issues
+const nodemailer = require('nodemailer');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   console.log('Email API called:', {
     method: req.method,
     hasBody: !!req.body,
@@ -35,22 +37,8 @@ export default async function handler(req, res) {
   }
   
   try {
-    // Import nodemailer if not already imported
-    if (!nodemailer) {
-      const module = await import('nodemailer');
-      nodemailer = module.default || module;
-    }
-    
-    // Debug: Check what we got
-    console.log('Nodemailer loaded:', {
-      hasNodemailer: !!nodemailer,
-      type: typeof nodemailer,
-      hasCreateTransporter: !!(nodemailer && nodemailer.createTransporter),
-      keys: nodemailer ? Object.keys(nodemailer).slice(0, 10) : []
-    });
-    
-    // Create transporter
-    const transporter = nodemailer.createTransporter({
+    // Create transporter with 163 SMTP settings
+    const transporter = nodemailer.createTransport({
       host: 'smtp.163.com',
       port: 465,
       secure: true,
@@ -59,18 +47,19 @@ export default async function handler(req, res) {
         pass: process.env.EMAIL_PASS
       },
       tls: {
+        // Do not fail on invalid certs
         rejectUnauthorized: false
       }
     });
     
     const { userEmail, adminEmail, subject, message } = req.body;
     
-    // Verify connection
+    // Verify connection configuration
     console.log('Verifying SMTP connection...');
     await transporter.verify();
-    console.log('SMTP connection verified');
+    console.log('SMTP connection verified successfully');
     
-    // Send email
+    // Prepare mail options
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: adminEmail || 'noswanghan@163.com',
@@ -94,9 +83,14 @@ export default async function handler(req, res) {
       `
     };
     
+    // Send email
     const info = await transporter.sendMail(mailOptions);
     
-    console.log('Email sent successfully:', info.messageId);
+    console.log('Email sent successfully:', {
+      messageId: info.messageId,
+      accepted: info.accepted,
+      response: info.response
+    });
     
     res.status(200).json({ 
       success: true, 
@@ -110,6 +104,9 @@ export default async function handler(req, res) {
     console.error('Error sending email:', {
       message: error.message,
       code: error.code,
+      command: error.command,
+      response: error.response,
+      responseCode: error.responseCode,
       stack: error.stack
     });
     
@@ -119,12 +116,10 @@ export default async function handler(req, res) {
       details: {
         message: error.message,
         code: error.code,
-        // Debug info
-        nodemailerInfo: {
-          loaded: !!nodemailer,
-          hasCreateTransporter: !!(nodemailer && nodemailer.createTransporter)
-        }
+        command: error.command,
+        responseCode: error.responseCode,
+        response: error.response
       }
     });
   }
-}
+};
