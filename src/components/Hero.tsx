@@ -2,10 +2,12 @@
 import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import SignupModal from './SignupModal';
+import ShowcaseModal from './ShowcaseModal';
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
 
   return (
     <section className="relative pt-48 pb-32 dot-grid-background">
@@ -43,7 +45,7 @@ const Hero: React.FC = () => {
           </button>
           <button
             className="border border-neutral-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-neutral-800 transition-all hover:scale-105 w-full sm:w-auto"
-            onClick={() => window.open('#', '_blank')}
+            onClick={() => setIsShowcaseOpen(true)}
           >
             {t.hero.demoButton}
           </button>
@@ -54,6 +56,12 @@ const Hero: React.FC = () => {
       <SignupModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
+      />
+      
+      {/* Showcase Modal */}
+      <ShowcaseModal
+        isOpen={isShowcaseOpen}
+        onClose={() => setIsShowcaseOpen(false)}
       />
     </section>
   );
