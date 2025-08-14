@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/send-email.cjs": {
+    "api/send-email.js": {
       "maxDuration": 10
     }
   }
