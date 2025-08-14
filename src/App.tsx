@@ -6,22 +6,27 @@ import UseCases from './components/UseCases';
 import Outputs from './components/Outputs';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
+import AdminPanel from './components/AdminPanel';
+import { LanguageProvider } from './contexts/LanguageContext';
 import './styles/globals.css';
 
 function App() {
   return (
-    <div className="antialiased">
-      <Header />
-      <main className="overflow-x-hidden">
-        <Hero />
-        <WhyNow />
-        <HowItWorks />
-        <UseCases />
-        <Outputs />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+    <LanguageProvider>
+      <div className="antialiased">
+        <Header />
+        <main className="overflow-x-hidden">
+          <Hero />
+          <WhyNow />
+          <HowItWorks />
+          <UseCases />
+          <Outputs />
+          <CTA />
+        </main>
+        <Footer />
+        <AdminPanel />
+      </div>
+    </LanguageProvider>
   );
 }
 
