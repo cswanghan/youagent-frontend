@@ -1,13 +1,18 @@
 // Vercel Serverless Function for sending emails
 // This file will be automatically deployed as an API endpoint
 
-export default async function handler(req, res) {
+// Use CommonJS require for better compatibility with Vercel Functions
+const nodemailer = require('nodemailer');
+
+module.exports = async function handler(req, res) {
   console.log('Email API called:', {
     method: req.method,
     hasBody: !!req.body,
     environment: process.env.NODE_ENV,
     hasEmailUser: !!process.env.EMAIL_USER,
-    hasEmailPass: !!process.env.EMAIL_PASS
+    hasEmailPass: !!process.env.EMAIL_PASS,
+    userLength: process.env.EMAIL_USER?.length,
+    passLength: process.env.EMAIL_PASS?.length
   });
 
   // Enable CORS
@@ -40,28 +45,34 @@ export default async function handler(req, res) {
   }
   
   try {
-    // Dynamic import for nodemailer (required for Vercel)
-    const nodemailer = await import('nodemailer');
-    
     // Email configuration from environment variables
     const emailConfig = {
       host: 'smtp.163.com',
       port: 465,
       secure: true,
       auth: {
-        user: process.env.EMAIL_USER || 'noswanghan@163.com',
-        pass: process.env.EMAIL_PASS // 从环境变量获取授权码
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      },
+      tls: {
+        // Do not fail on invalid certs
+        rejectUnauthorized: false
       }
     };
     
-    // Create transporter
-    const transporter = nodemailer.default.createTransporter(emailConfig);
+    // Create transporter using nodemailer
+    const transporter = nodemailer.createTransporter(emailConfig);
     
     const { userEmail, adminEmail, subject, message } = req.body;
     
+    // Verify connection first
+    console.log('Verifying SMTP connection...');
+    await transporter.verify();
+    console.log('SMTP connection verified');
+    
     // Send email
     const mailOptions = {
-      from: emailConfig.auth.user,
+      from: process.env.EMAIL_USER,
       to: adminEmail || 'noswanghan@163.com',
       subject: subject || `新的试用申请 - ${userEmail}`,
       text: message || `有邮箱地址是 ${userEmail} 的用户提交了试用申请。\n\n提交时间: ${new Date().toLocaleString('zh-CN')}`,
@@ -83,23 +94,20 @@ export default async function handler(req, res) {
       `
     };
     
-    // Test connection first
-    console.log('Testing email connection...');
-    await transporter.verify();
-    console.log('Email connection verified');
-    
     // Send email
     const info = await transporter.sendMail(mailOptions);
     
     console.log('Email sent successfully:', {
       messageId: info.messageId,
-      to: adminEmail || 'noswanghan@163.com'
+      to: adminEmail || 'noswanghan@163.com',
+      accepted: info.accepted
     });
     
     res.status(200).json({ 
       success: true, 
       message: 'Email sent successfully',
       messageId: info.messageId,
+      accepted: info.accepted,
       timestamp: new Date().toISOString()
     });
     
@@ -119,13 +127,10 @@ export default async function handler(req, res) {
       details: {
         message: error.message,
         code: error.code,
+        command: error.command,
         responseCode: error.responseCode,
-        // Only in development or with debug flag
-        debug: process.env.NODE_ENV !== 'production' ? {
-          command: error.command,
-          response: error.response
-        } : undefined
+        response: error.response
       }
     });
   }
-}
+};
