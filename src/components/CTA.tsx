@@ -4,7 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import SignupModal from './SignupModal';
 
 const CTA: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const handleGetStarted = () => {

@@ -6,13 +6,6 @@ import SignupModal from './SignupModal';
 const Hero: React.FC = () => {
   const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section className="relative pt-48 pb-32 dot-grid-background">

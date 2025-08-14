@@ -8,7 +8,7 @@ interface SignupModalProps {
 }
 
 const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);

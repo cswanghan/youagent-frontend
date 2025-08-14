@@ -31,9 +31,10 @@ export class EmailService {
       
       // Call the real email API
       // 自动检测环境：开发环境使用 localhost，生产环境使用相对路径
-      const apiUrl = import.meta.env.PROD 
-        ? '/api/send-email'  // 生产环境：使用相对路径（Vercel Functions）
-        : 'http://localhost:3001/api/send-email'; // 开发环境
+      const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiUrl = isDevelopment
+        ? 'http://localhost:3001/api/send-email' // 开发环境
+        : '/api/send-email';  // 生产环境：使用相对路径（Vercel Functions）
       
       try {
         const response = await fetch(apiUrl, {
