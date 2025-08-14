@@ -1,6 +1,3 @@
-// Vercel Serverless Function for sending emails - ESM version
-import nodemailer from 'nodemailer';
-
 export default async function handler(req, res) {
   console.log('Email API called:', {
     method: req.method,
@@ -36,6 +33,9 @@ export default async function handler(req, res) {
   }
   
   try {
+    // Dynamic import for Vercel
+    const { default: nodemailer } = await import('nodemailer');
+    
     // Create transporter
     const transporter = nodemailer.createTransporter({
       host: 'smtp.163.com',
@@ -97,7 +97,7 @@ export default async function handler(req, res) {
     console.error('Error sending email:', {
       message: error.message,
       code: error.code,
-      response: error.response
+      stack: error.stack
     });
     
     res.status(500).json({ 
@@ -105,10 +105,7 @@ export default async function handler(req, res) {
       error: 'Failed to send email',
       details: {
         message: error.message,
-        code: error.code,
-        command: error.command,
-        responseCode: error.responseCode,
-        response: error.response
+        code: error.code
       }
     });
   }
